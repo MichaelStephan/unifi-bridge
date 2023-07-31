@@ -16,11 +16,19 @@
   },
   "map": [],
   "options": {
-    "username":"Unifi username",
-    "password":"Unifi password",
-    "site":"Unifi site",
-    "host":"Unifi device"
+    "unifi":{
+      "username":"",
+      "password":"",
+      "site":"",
+      "host":""
+    }
   },
   "schema": {
+    "unifi":{
+      "username":"str",
+      "password":"str",
+      "site":"str",
+      "host":"str"
+    }
   }
 }
