@@ -73,19 +73,24 @@ if (port == undefined) {
 
 const unifi = new ExtendedUnifiController({host, port, sslverify: false});
 
-
 webservice.get('/firewall_rule/:rule_set/:rule_id', async (req, res) => {
 	var rule_set = req.params['rule_set'] 
 	var rule_id = req.params['rule_id'] 
 
-	await unifi.login(user, password);
-	firewall_rule = await unifi.getFirewallRule(rule_set, rule_id)
-	if (firewall_rule == null) {
-		res.status(404)
+	try {
+		await unifi.login(user, password);
+		firewall_rule = await unifi.getFirewallRule(rule_set, rule_id)
+		if (firewall_rule == null) {
+			res.status(404)
+			res.end()
+		}
+		else {
+			res.json(firewall_rule)
+		}
+	} catch(e) {
+		console.log(e)
+		res.status(500)
 		res.end()
-	}
-	else {
-		res.json(firewall_rule)
 	}	
 })
 
