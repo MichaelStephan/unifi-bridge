@@ -86,6 +86,16 @@ webservice.get('/firewall_rule/:rule_set/:rule_id', async (req, res) => {
 	}
 })
 
+webservice.get('/client_devices', async (req, res) => {
+	client_devices = await unifi.getClientDevices()
+	if (client_devices == null) {
+		res.status(404)
+		res.end()
+	} else {
+		res.json(client_devices)
+	}
+})
+
 webservice.post('/firewall_rule/:rule_set/:rule_id/toggle', express.json(), async (req, res) => {
 	var rule_set = req.params['rule_set'] 
 	var rule_id = req.params['rule_id'] 
