@@ -77,7 +77,6 @@ webservice.get('/firewall_rule/:rule_set/:rule_id', async (req, res) => {
 	var rule_set = req.params['rule_set'] 
 	var rule_id = req.params['rule_id'] 
 
-	await unifi.login(username, password);
 	firewall_rule = await unifi.getFirewallRule(rule_set, rule_id)
 	if (firewall_rule == null) {
 		res.status(404)
@@ -91,7 +90,6 @@ webservice.post('/firewall_rule/:rule_set/:rule_id/toggle', express.json(), asyn
 	var rule_set = req.params['rule_set'] 
 	var rule_id = req.params['rule_id'] 
 
-	await unifi.login(username, password);
 	firewall_rule = await unifi.toggleFirewallRule(rule_set, rule_id)
 	if (firewall_rule == null) {
 		res.status(404)
@@ -106,6 +104,7 @@ webservice.post('/firewall_rule/:rule_set/:rule_id/toggle', express.json(), asyn
  * Listen to defined port. Might be exposed differently depending on addon config.
  **/
 console.log(`Starting listener on port ${port}.`)
-webservice.listen(8000, () => {
+webservice.listen(8000, async () => {
+	await unifi.login(username, password);
 	console.log(`Unifi Bridge is running on port ${port}.`);
 })
