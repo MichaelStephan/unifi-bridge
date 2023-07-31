@@ -91,7 +91,7 @@ webservice.post('/firewall_rule/:rule_set/:rule_id/toggle', express.json(), asyn
 	var rule_set = req.params['rule_set'] 
 	var rule_id = req.params['rule_id'] 
 
-	await unifi.login(user, password);
+	await unifi.login(username, password);
 	firewall_rule = await unifi.toggleFirewallRule(rule_set, rule_id)
 	if (firewall_rule == null) {
 		res.status(404)
