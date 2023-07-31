@@ -1,7 +1,7 @@
 {
   "slug": "unifi_bridge",
   "name": "Unifi Bridge",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "url": "https://github.com/helmut-hoffer-von-ankershoffen/hassio-ring-bridge",
   "stage": "stable",
   "description": "Bridge to Unifi API. Built by Michael Stephan",
@@ -20,12 +20,14 @@
     "username":"",
     "password":"",
     "site":"",
-    "host":""
+    "host":"",
+    "port":""
   },
   "schema": {
     "username":"str",
     "password":"str",
     "site":"str",
-    "host":"str"
+    "host":"str",
+    "port":"int"
   }
 }
