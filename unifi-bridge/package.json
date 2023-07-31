@@ -1,0 +1,21 @@
+{
+    "name": "ring_bridge",
+    "version": "1.0.2",
+    "description": "Ring Bridge",
+    "author": "Helmut Hoffer von Ankershoffen <https://helmut.hoffer-von-ankershoffen.me>",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "dotenv-extended": "^2.8.0",
+        "node-unifi": "^2.4.1",
+        "http": "^0.0.0",
+        "zlib": "^1.0",
+        "url": "^0.11",
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "@types/node": "^14.0.23"
+    }
+}
