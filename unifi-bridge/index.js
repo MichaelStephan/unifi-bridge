@@ -41,8 +41,8 @@ class ExtendedUnifiController extends Unifi.Controller {
   }
 }
 
-var user = process.env.USER
-if (user == undefined) {
+var username = process.env.USERNAME
+if (username == undefined) {
 	console.log("You must set an user in the addon config")
 	process.exit(22)
 }
@@ -78,7 +78,7 @@ webservice.get('/firewall_rule/:rule_set/:rule_id', async (req, res) => {
 	var rule_id = req.params['rule_id'] 
 
 	try {
-		await unifi.login(user, password);
+		await unifi.login(username, password);
 		firewall_rule = await unifi.getFirewallRule(rule_set, rule_id)
 		if (firewall_rule == null) {
 			res.status(404)
