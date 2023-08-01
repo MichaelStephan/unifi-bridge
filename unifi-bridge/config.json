@@ -2,7 +2,7 @@
   "slug": "unifi_bridge",
   "name": "Unifi Bridge",
   "version": "1.0.11",
-  "url": "https://github.com/helmut-hoffer-von-ankershoffen/hassio-ring-bridge",
+  "url": "https://github.com/MichaelStephan/unifi-bridge",
   "stage": "stable",
   "description": "Bridge to Unifi API. Built by Michael Stephan",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
@@ -13,7 +13,7 @@
     "8000/tcp": 8000
   },
   "ports_description": {
-    "8000/tcp": "Webservice API"
+    "8000/tcp": "API"
   },
   "map": [],
   "options": {

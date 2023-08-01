@@ -110,9 +110,6 @@ webservice.post('/firewall_rule/:rule_set/:rule_id/toggle', express.json(), asyn
 	}	
 })
 
-/**
- * Listen to defined port. Might be exposed differently depending on addon config.
- **/
 console.log(`Starting listener on port ${port}.`)
 webservice.listen(8000, async () => {
 	console.log('running version 1.0.11')
