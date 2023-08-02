@@ -1,0 +1,11 @@
+docker run -it -p 1883:1883 -p 9001:9001 -v $(pwd)/mosquitto.conf:/mosquitto/config/mosquitto.conf eclipse-mosquitto
+
+mosquitto.conf
+michael.stephan@DT-C02FG0PGML86 config % cat mosquitto.conf
+allow_anonymous true
+listener 1883
+persistence_location /mosquitto/data/
+
+mosquitto_sub -t "unifi-bridge/default/firewall_rule/WAN_OUT/2001/enabled" -h localhost
+
+
