@@ -17,17 +17,23 @@
   },
   "map": [],
   "options": {
-    "username":"",
-    "password":"",
-    "site":"",
-    "host":"",
-    "port":""
+    "unif_username":"",
+    "unif_password":"",
+    "unif_site":"",
+    "unif_host":"",
+    "unif_port":"",
+    "mqtt_endpoint":"",
+    "mqtt_username":"",
+    "mqtt_password":""
   },
   "schema": {
-    "username":"str",
-    "password":"str",
-    "site":"str",
-    "host":"str",
-    "port":"int"
+    "unif_username":"str",
+    "unif_password":"str",
+    "unif_site":"str",
+    "unif_host":"str",
+    "unif_port":"int",
+    "mqtt_endpoint":"str",
+    "mqtt_username":"str",
+    "mqtt_password":"int"
   }
 }
