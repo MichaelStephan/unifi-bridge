@@ -26,7 +26,7 @@ mqtt_config = {
 }
 
 console.log('Initializing mqtt connection')
-const mqtt_client = mqtt.connect(mqtt_config.endpoint, {username: mqtt_config.username, password: mqtt_client.password})
+const mqtt_client = mqtt.connect(mqtt_config.endpoint, {username: mqtt_config.username, password: mqtt_config.password})
 
 mqtt_client.on('connect', () => {
 	console.log('Mqtt connection established')
@@ -116,7 +116,7 @@ webservice.post('/firewall_rule/:rule_set/:rule_id/toggle', express.json(), asyn
 
 console.log(`Starting listener on port 8000`)
 webservice.listen(8000, async () => {
-	console.log('running version 1.0.14')
+	console.log('running version 1.0.15')
 	await unifi.login(unifi_config.username, unifi_config.password);
 	console.log(`Unifi Bridge is running on port ${unifi_config.port}`);
 })
