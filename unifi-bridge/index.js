@@ -25,7 +25,7 @@ mqtt_config = {
 	topic_base : 'unifi-bridge'
 }
 
-console.log('running version 1.0.15')
+console.log('Running version 1.0.16 (app)')
 console.log('Initializing mqtt connection')
 const mqtt_client = mqtt.connect(mqtt_config.endpoint, {username: mqtt_config.username, password: mqtt_config.password})
 
