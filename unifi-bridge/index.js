@@ -109,7 +109,7 @@ webservice.post('/firewall_rule/:rule_set/:rule_id/toggle', express.json(), asyn
 		res.status(404).end()
 	}
 	else {
-		mqtt_client.publish(`${mqtt_config.topic_base}/${unifi_config.site}/firewall_rule/${rule_set}/${rule_id}/enabled`, JSON.stringify(firewall_rule.enabled));
+		mqtt_client.publish(`${mqtt_config.topic_base}/${unifi_config.site}/firewall_rule/${rule_set}/${rule_id}`, JSON.stringify(firewall_rule));
 		res.json(firewall_rule).end()
 	}	
 })
