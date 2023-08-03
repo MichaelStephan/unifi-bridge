@@ -116,7 +116,7 @@ webservice.post('/firewall_rule/:rule_set/:rule_id/toggle', express.json(), asyn
 
 console.log(`Starting listener on port 8000`)
 webservice.listen(8000, async () => {
-	console.log('running version 1.0.12')
+	console.log('running version 1.0.13')
 	await unifi.login(unifi_config.username, unifi_config.password);
 	console.log(`Unifi Bridge is running on port ${unifi_config.port}`);
 })
