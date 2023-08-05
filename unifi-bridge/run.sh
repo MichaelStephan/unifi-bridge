@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bashio
 set +u
 
-bashio::log.info "Running version 1.0.20"
+bashio::log.info "Running version 1.0.21"
 
 export UNIFI_USERNAME=$(bashio::config 'unifi_username')
 bashio::log.info "Unifi username configured as ${UNIFI_USERNAME}"
@@ -26,6 +26,8 @@ bashio::log.info "MQTT username as ${MQTT_USERNAME}"
 
 export MQTT_PASSWORD=$(bashio::config 'mqtt_password')
 bashio::log.info "MQTT password configured as ********"
+
+export LISTEN=$(bashio::config 'listen')
 
 bashio::log.info "Starting bridge service"
 npm run start
