@@ -2,6 +2,8 @@ const express = require('express')
 const mqtt = require('mqtt');
 const Unifi = require('node-unifi')
 
+const DEFAULT_LISTEN_REFRESH_INTERVAL = 1000 * 5
+
 function must_have_env(variable, name) {
 	if (variable == null || variable.trim().length == 0) {
 		console.log(`You must set ${name} in the addon config`)
@@ -10,7 +12,7 @@ function must_have_env(variable, name) {
 	return variable
 }
 
-unifi_config = {
+const unifi_config = {
 	username : must_have_env(process.env.UNIFI_USERNAME, 'unifi_username'),
 	password : must_have_env(process.env.UNIFI_PASSWORD, 'unifi_password'),
 	site : must_have_env(process.env.UNIFI_SITE, 'unifi_site'),
@@ -18,12 +20,24 @@ unifi_config = {
 	port : must_have_env(process.env.UNIFI_PORT, 'unifi_port')
 }
 
-mqtt_config = {
+const mqtt_config = {
 	username : must_have_env(process.env.MQTT_USERNAME, 'mqtt_username'),
 	password : must_have_env(process.env.MQTT_PASSWORD, 'mqtt_password'),
 	endpoint : must_have_env(process.env.MQTT_ENDPOINT, 'mqtt_endpoint'),
 	topic_base : 'unifi-bridge'
 }
+
+const config = {
+	listeners : JSON.parse(must_have_env(process.env.LISTENERS, 'listeners'))
+}
+
+for (i in config.listeners) {
+	const listener = config.listeners[i]
+	config.listeners[i].filter = JSON.parse(listener.filter)
+}
+
+listener_states = {}
+
 
 console.log('Initializing mqtt connection')
 const mqtt_client = mqtt.connect(mqtt_config.endpoint, {username: mqtt_config.username, password: mqtt_config.password})
@@ -114,8 +128,44 @@ webservice.post('/firewall_rule/:rule_set/:rule_id/toggle', express.json(), asyn
 	}	
 })
 
+async function informListeners() {
+	firewall_rules = await unifi.getFirewallRules()
+
+	for (i in firewall_rules) {
+		const firewall_rule = firewall_rules[i]
+		for (j in config.listeners) {
+			listener = config.listeners[j]
+			const listener_filter_keys = Object.keys(listener.filter)
+
+			let match = true
+			for (k in listener_filter_keys) {
+				key = listener_filter_keys[k]
+				match = match && (`${firewall_rule[key]}` == `${listener.filter[key]}`)
+			}
+
+			if (match) {
+				switch(listener.type) {
+					case "firewall_rule":
+						mqtt_client.publish(`${mqtt_config.topic_base}/${unifi_config.site}/firewall_rule/${firewall_rule.ruleset}/${firewall_rule.rule_index}`, JSON.stringify(firewall_rule), {retain: true});	
+					break
+
+					case "client_device":
+						// TODO
+						break
+
+					default:
+						console.log(`Cannot handle ${listener.type}`)
+				}
+			}
+		}
+	}
+
+}
+
 console.log(`Starting listener on port 8000`)
 webservice.listen(8000, async () => {
 	await unifi.login(unifi_config.username, unifi_config.password);
 	console.log(`Unifi Bridge is running on port ${unifi_config.port}`);
+	
+	setInterval(informListeners, DEFAULT_LISTEN_REFRESH_INTERVAL)
 })
