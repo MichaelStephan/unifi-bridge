@@ -2,7 +2,7 @@ const express = require('express')
 const mqtt = require('mqtt');
 const Unifi = require('node-unifi')
 
-const DEFAULT_LISTEN_REFRESH_INTERVAL = 1000 * 5
+const DEFAULT_LISTEN_REFRESH_INTERVAL = 1000 * 60
 
 function must_have_env(variable, name) {
 	if (variable == null || variable.trim().length == 0) {
@@ -167,5 +167,6 @@ webservice.listen(8000, async () => {
 	await unifi.login(unifi_config.username, unifi_config.password);
 	console.log(`Unifi Bridge is running on port ${unifi_config.port}`);
 	
+	informListeners()
 	setInterval(informListeners, DEFAULT_LISTEN_REFRESH_INTERVAL)
 })
