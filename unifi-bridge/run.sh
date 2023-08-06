@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bashio
 set +u
 
-bashio::log.info "Running version 1.0.37"
+bashio::log.info "Running version 1.0.38"
 
 export UNIFI_USERNAME=$(bashio::config 'unifi_username')
 bashio::log.info "Unifi username configured as ${UNIFI_USERNAME}"
@@ -27,11 +27,8 @@ bashio::log.info "MQTT username as ${MQTT_USERNAME}"
 export MQTT_PASSWORD=$(bashio::config 'mqtt_password')
 bashio::log.info "MQTT password configured as ********"
 
-
-for i in $(bashio::config 'listeners|keys'); do
-    export LISTENER_TYPE_${i}=$(bashio::config "listeners[${i}].type")
-    export LISTENER_FILTER_${i}=$(bashio::config "listeners[${i}].filter")
-done
+export LISTENERS=$(bashio::config 'listeners')
+bashio::log.info "LISTENERS configured as ${LISTENERS}"
 
 bashio::log.info "Starting bridge service"
 npm run start
