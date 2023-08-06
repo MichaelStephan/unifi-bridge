@@ -27,22 +27,10 @@ const mqtt_config = {
 	topic_base : 'unifi-bridge'
 }
 
-console.log(process.env.LISTENERS)
+console.log(process.env)
 const config = {
-	listeners : must_have_env(process.env.LISTENERS, 'listeners')
+	listeners : []
 }
-
-console.log(config.listeners)
-
-for (i in config.listeners) {
-	const listener = config.listeners[i]
-	console.log(listener)
-
-	config.listeners[i].filter = JSON.parse(listener.filter)
-}
-
-listener_states = {}
-
 
 console.log('Initializing mqtt connection')
 const mqtt_client = mqtt.connect(mqtt_config.endpoint, {username: mqtt_config.username, password: mqtt_config.password})

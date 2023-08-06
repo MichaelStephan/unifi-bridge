@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bashio
 set +u
 
-bashio::log.info "Running version 1.0.30"
+bashio::log.info "Running version 1.0.31"
 
 export UNIFI_USERNAME=$(bashio::config 'unifi_username')
 bashio::log.info "Unifi username configured as ${UNIFI_USERNAME}"
@@ -29,11 +29,11 @@ bashio::log.info "MQTT password configured as ********"
 
 
 for i in $(bashio::config 'listeners|keys'); do
-    export LISTENER_TYPE[${i}]=$(bashio::config "listeners[${i}].type")
-    bashio::log.info "LISTENER_TYPE[${i}] as ${LISTENER_TYPE[${i}]}"
+    export LISTENER_TYPE_${i}=$(bashio::config "listeners_${i}.type")
+    bashio::log.info "LISTENER_TYPE_${i} as ${LISTENER_TYPE_${i}}"
 
-    export LISTENER_FILTER[${i}]=$(bashio::config "listeners[${i}].filter")
-    bashio::log.info "LISTENER_FILTER[${i}] as ${LISTENER_FILTER[${i}]}"
+    export LISTENER_FILTER_${i}=$(bashio::config "listeners_${i}.filter")
+    bashio::log.info "LISTENER_FILTER_${i} as ${LISTENER_FILTER_${i}}"
 done
 
 
