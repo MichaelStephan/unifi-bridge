@@ -2,7 +2,7 @@ const express = require('express')
 const mqtt = require('mqtt');
 const Unifi = require('node-unifi')
 
-const DEFAULT_LISTEN_REFRESH_INTERVAL = 1000 * 60
+const DEFAULT_LISTEN_REFRESH_INTERVAL = 1000 * 5
 
 function must_have_env(variable, name) {
 	if (variable == null || variable.trim().length == 0) {
@@ -128,38 +128,40 @@ webservice.post('/firewall_rule/:rule_set/:rule_id/toggle', express.json(), asyn
 	}	
 })
 
+function matches(document, template) {
+	const template_keys = Object.keys(template)
+
+	let match = true
+	for (k in template_keys) {
+		key = template_keys[k]
+		match = match && (`${document[key]}` == `${template[key]}`)
+	}
+
+	return match
+}
+
 async function informListeners() {
 	firewall_rules = await unifi.getFirewallRules()
-
 	for (i in firewall_rules) {
 		const firewall_rule = firewall_rules[i]
 		for (j in config.listeners) {
 			listener = config.listeners[j]
-			const listener_filter_keys = Object.keys(listener.filter)
-
-			let match = true
-			for (k in listener_filter_keys) {
-				key = listener_filter_keys[k]
-				match = match && (`${firewall_rule[key]}` == `${listener.filter[key]}`)
-			}
-
-			if (match) {
-				switch(listener.type) {
-					case "firewall_rule":
-						mqtt_client.publish(`${mqtt_config.topic_base}/${unifi_config.site}/firewall_rule/${firewall_rule.ruleset}/${firewall_rule.rule_index}`, JSON.stringify(firewall_rule), {retain: true});	
-					break
-
-					case "client_device":
-						// TODO
-						break
-
-					default:
-						console.log(`Cannot handle ${listener.type}`)
-				}
+			if (listener.type == 'firewall_rule' && matches(firewall_rule, listener.filter)) {
+				mqtt_client.publish(`${mqtt_config.topic_base}/${unifi_config.site}/firewall_rule/${firewall_rule.ruleset}/${firewall_rule.rule_index}`, JSON.stringify(firewall_rule), {retain: true})
 			}
 		}
 	}
 
+	client_devices = await unifi.getClientDevices()
+	for (i in client_devices) {
+		const client_device = client_devices[i]
+		for (j in config.listeners) {
+			listener = config.listeners[j]
+			if (listener.type == 'client_device' && matches(client_device, listener.filter)) {
+				mqtt_client.publish(`${mqtt_config.topic_base}/${unifi_config.site}/client_device/${client_device.mac}`, JSON.stringify(client_device), {retain: true});	
+			}
+		}
+	}
 }
 
 console.log(`Starting listener on port 8000`)
