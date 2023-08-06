@@ -30,10 +30,10 @@ bashio::log.info "MQTT password configured as ********"
 
 for i in $(bashio::config 'listeners|keys'); do
     export LISTENER_TYPE_${i}=$(bashio::config "listeners_${i}.type")
-    bashio::log.info "LISTENER_TYPE_${i} as ${LISTENER_TYPE_${i}}"
+    bashio::log.info "LISTENER_TYPE_${i} as ${LISTENER_TYPE_${i}"
 
     export LISTENER_FILTER_${i}=$(bashio::config "listeners_${i}.filter")
-    bashio::log.info "LISTENER_FILTER_${i} as ${LISTENER_FILTER_${i}}"
+    bashio::log.info "LISTENER_FILTER_${i} as ${LISTENER_FILTER_${i}"
 done
 
 
