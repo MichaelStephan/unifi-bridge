@@ -31,6 +31,8 @@ const config = {
 	listeners : must_have_env(process.env.LISTENERS, 'listeners')
 }
 
+console.log(config.listeners)
+
 for (i in config.listeners) {
 	const listener = config.listeners[i]
 	config.listeners[i].filter = JSON.parse(listener.filter)
