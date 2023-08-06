@@ -5,7 +5,7 @@ const Unifi = require('node-unifi')
 const DEFAULT_LISTEN_REFRESH_INTERVAL = 1000 * 5
 
 function must_have_env(variable, name) {
-	if (variable == null || variable.trim().length == 0) {
+	if (variable == null || `${variable}`.trim().length == 0) {
 		console.log(`You must set ${name} in the addon config`)
 		process.exit(22)
 	}
@@ -27,6 +27,7 @@ const mqtt_config = {
 	topic_base : 'unifi-bridge'
 }
 
+console.log(process.env.LISTENERS)
 const config = {
 	listeners : must_have_env(process.env.LISTENERS, 'listeners')
 }
