@@ -28,7 +28,7 @@ const mqtt_config = {
 }
 
 const config = {
-	listeners : JSON.parse(must_have_env(process.env.LISTENERS, 'listeners'))
+	listeners : must_have_env(process.env.LISTENERS, 'listeners')
 }
 
 for (i in config.listeners) {
