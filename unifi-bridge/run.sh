@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bashio
 set +u
 
-bashio::log.info "Running version 1.0.35"
+bashio::log.info "Running version 1.0.36"
 
 export UNIFI_USERNAME=$(bashio::config 'unifi_username')
 bashio::log.info "Unifi username configured as ${UNIFI_USERNAME}"
@@ -32,7 +32,6 @@ for i in $(bashio::config 'listeners|keys'); do
     export LISTENER_TYPE_${i}=$(bashio::config "listeners[${i}].type")
     export LISTENER_FILTER_${i}=$(bashio::config "listeners[${i}].filter")
 done
-
 
 bashio::log.info "Starting bridge service"
 npm run start

@@ -27,9 +27,8 @@ const mqtt_config = {
 	topic_base : 'unifi-bridge'
 }
 
-console.log(process.env)
 const config = {
-	listeners : []
+	listeners : JSON.parse(must_have_env(process.env.LISTENERS, 'listeners')),
 }
 
 console.log('Initializing mqtt connection')

@@ -1,7 +1,7 @@
 {
   "slug": "unifi_bridge",
   "name": "Unifi Bridge",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "url": "https://github.com/MichaelStephan/unifi-bridge",
   "stage": "stable",
   "description": "Bridge to Unifi API. Built by Michael Stephan",
@@ -25,7 +25,7 @@
     "mqtt_endpoint":"",
     "mqtt_username":"",
     "mqtt_password":"",
-    "listeners":[]
+    "listener":"{}"
   },
   "schema": {
     "unifi_username":"str",
@@ -36,9 +36,6 @@
     "mqtt_endpoint":"str",
     "mqtt_username":"str",
     "mqtt_password":"password",
-    "listeners":[{
-      "type":"str",
-      "filter":"str"
-    }]
+    "listeners":"str"
   }
 }
