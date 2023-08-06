@@ -35,6 +35,8 @@ console.log(config.listeners)
 
 for (i in config.listeners) {
 	const listener = config.listeners[i]
+	console.log(listener)
+
 	config.listeners[i].filter = JSON.parse(listener.filter)
 }
 
