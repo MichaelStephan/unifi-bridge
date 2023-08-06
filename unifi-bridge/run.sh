@@ -27,8 +27,15 @@ bashio::log.info "MQTT username as ${MQTT_USERNAME}"
 export MQTT_PASSWORD=$(bashio::config 'mqtt_password')
 bashio::log.info "MQTT password configured as ********"
 
-export LISTENERS=$(bashio::config 'listeners')
-bashio::log.info "Listeners set to ${LISTENERS}"
+
+for i in $(bashio::config 'listeners|keys'); do
+    export LISTENER_TYPE[${i}]=$(bashio::config "listeners[${i}].type")
+    bashio::log.info "LISTENER_TYPE[${i}] as ${LISTENER_TYPE[${i}]}"
+
+    export LISTENER_FILTER[${i}]=$(bashio::config "listeners[${i}].filter")
+    bashio::log.info "LISTENER_FILTER[${i}] as ${LISTENER_FILTER[${i}]}"
+done
+
 
 bashio::log.info "Starting bridge service"
 npm run start
