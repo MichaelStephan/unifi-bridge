@@ -150,7 +150,7 @@ async function informListeners() {
 		for (j in config.listeners) {
 			listener = config.listeners[j]
 			if (listener.type == 'client_device' && matches(client_device, listener.filter)) {
-				mqtt_client.publish(`${mqtt_config.topic_base}/${unifi_config.site}/client_device/${client_device.mac}`, JSON.stringify(client_device), {retain: true});	
+				mqtt_client.publish(`${mqtt_config.topic_base}/${unifi_config.site}/client_device/${client_device.mac}`, JSON.stringify(client_device));	
 			}
 		}
 	}
