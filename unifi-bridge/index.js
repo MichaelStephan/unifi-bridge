@@ -38,8 +38,6 @@ mqtt_client.on('connect', () => {
 	console.log('Mqtt connection established')
 });
 
-function mqtt_publish()
-
 console.log('Initializing webservice')
 const webservice = express()
 
