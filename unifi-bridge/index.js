@@ -38,6 +38,8 @@ mqtt_client.on('connect', () => {
 	console.log('Mqtt connection established')
 });
 
+function mqtt_publish()
+
 console.log('Initializing webservice')
 const webservice = express()
 
@@ -144,13 +146,25 @@ async function informListeners() {
 		}
 	}
 
+	client_devices_timeoutIds = {} 
 	client_devices = await unifi.getClientDevices()
 	for (i in client_devices) {
 		const client_device = client_devices[i]
 		for (j in config.listeners) {
 			listener = config.listeners[j]
 			if (listener.type == 'client_device' && matches(client_device, listener.filter)) {
-				mqtt_client.publish(`${mqtt_config.topic_base}/${unifi_config.site}/client_device/${client_device.mac}`, JSON.stringify(client_device));	
+				topic = `${mqtt_config.topic_base}/${unifi_config.site}/client_device/${client_device.mac}`
+				mqtt_client.publish(topic, JSON.stringify(client_device));
+				mqtt_client.publish(`${topic}/available`, true);	
+
+				if (client_devices_timeoutIds[topic] == null) {
+					client_devices_timeoutIds[topic] = setTimeout(() => {
+						mqtt_client.publish(`${topic}/available`, false);
+					}, DEFAULT_LISTEN_REFRESH_INTERVAL + 2000)
+				} else {
+					clearTimeout(client_devices_timeoutIds[topic])
+					delete client_devices_timeoutIds[topic]
+				}
 			}
 		}
 	}
