@@ -132,6 +132,8 @@ function matches(document, template) {
 	return match
 }
 
+client_devices_timeoutIds = {} 
+
 async function informListeners() {
 	firewall_rules = await unifi.getFirewallRules()
 	for (i in firewall_rules) {
@@ -144,7 +146,6 @@ async function informListeners() {
 		}
 	}
 
-	client_devices_timeoutIds = {} 
 	client_devices = await unifi.getClientDevices()
 	for (i in client_devices) {
 		const client_device = client_devices[i]
@@ -157,13 +158,13 @@ async function informListeners() {
 				mqtt_client.publish(availableTopic, 'online');	
 
 				if (client_devices_timeoutIds[topic] == null) {
-					console.log('create timeout')
+					// console.log('create timeout')
 					client_devices_timeoutIds[topic] = setTimeout(() => {
-						console.log('timeout triggered')
+						// console.log('timeout triggered')
 						mqtt_client.publish(availableTopic, 'offline');
 					}, 3 * DEFAULT_LISTEN_REFRESH_INTERVAL)
 				} else {
-					console.log('clear timeout')
+					// console.log('clear timeout')
 					clearTimeout(client_devices_timeoutIds[topic])
 					delete client_devices_timeoutIds[topic]
 				}
