@@ -158,13 +158,10 @@ async function informListeners() {
 				mqtt_client.publish(availableTopic, 'online');	
 
 				if (client_devices_timeoutIds[topic] == null) {
-					// console.log('create timeout')
 					client_devices_timeoutIds[topic] = setTimeout(() => {
-						// console.log('timeout triggered')
-						mqtt_client.publish(availableTopic, 'offline');
+						mqtt_client.publish(availableTopic, 'offline', {retain: true});
 					}, 3 * DEFAULT_LISTEN_REFRESH_INTERVAL)
 				} else {
-					// console.log('clear timeout')
 					clearTimeout(client_devices_timeoutIds[topic])
 					delete client_devices_timeoutIds[topic]
 				}
