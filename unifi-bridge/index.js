@@ -160,6 +160,7 @@ async function informListeners() {
 				if (client_devices_timeoutIds[topic] == null) {
 					client_devices_timeoutIds[topic] = setTimeout(() => {
 						mqtt_client.publish(availableTopic, 'offline', {retain: true});
+						delete client_devices_timeoutIds[topic]
 					}, 3 * DEFAULT_LISTEN_REFRESH_INTERVAL)
 				} else {
 					clearTimeout(client_devices_timeoutIds[topic])
