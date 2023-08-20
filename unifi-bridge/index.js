@@ -120,6 +120,34 @@ webservice.post('/firewall_rule/:rule_set/:rule_id/toggle', express.json(), asyn
 	}	
 })
 
+webservice.post('/firewall_rule/:rule_set/:rule_id/on', express.json(), async (req, res) => {
+	var rule_set = req.params['rule_set'] 
+	var rule_id = req.params['rule_id'] 
+
+	firewall_rule = await unifi.enableFirewallRule(rule_set, rule_id)
+	if (firewall_rule == null) {
+		res.status(404).end()
+	}
+	else {
+		mqtt_client.publish(`${mqtt_config.topic_base}/${unifi_config.site}/firewall_rule/${rule_set}/${rule_id}`, JSON.stringify(firewall_rule), {retain: true});
+		res.json(firewall_rule).end()
+	}	
+})
+
+webservice.post('/firewall_rule/:rule_set/:rule_id/off', express.json(), async (req, res) => {
+	var rule_set = req.params['rule_set'] 
+	var rule_id = req.params['rule_id'] 
+
+	firewall_rule = await unifi.disableFirewallRule(rule_set, rule_id)
+	if (firewall_rule == null) {
+		res.status(404).end()
+	}
+	else {
+		mqtt_client.publish(`${mqtt_config.topic_base}/${unifi_config.site}/firewall_rule/${rule_set}/${rule_id}`, JSON.stringify(firewall_rule), {retain: true});
+		res.json(firewall_rule).end()
+	}	
+})
+
 function matches(document, template) {
 	const template_keys = Object.keys(template)
 
