@@ -155,13 +155,13 @@ async function informListeners() {
 				topic = `${mqtt_config.topic_base}/${unifi_config.site}/client_device/${client_device.mac}`
 				availableTopic = `${topic}/available`
 				mqtt_client.publish(topic, JSON.stringify(client_device));
-				mqtt_client.publish(`${topic}/presence`, 'True');
+				mqtt_client.publish(`${topic}/presence`, 'home');
 				mqtt_client.publish(availableTopic, 'online');	
 
 				if (client_devices_timeoutIds[topic] == null) {
 					client_devices_timeoutIds[topic] = setTimeout(() => {
 						mqtt_client.publish(availableTopic, 'offline', {retain: true});
-						mqtt_client.publish(`${topic}/presence`, 'False');
+						mqtt_client.publish(`${topic}/presence`, 'not home');
 						delete client_devices_timeoutIds[topic]
 					}, 3 * DEFAULT_LISTEN_REFRESH_INTERVAL)
 				} else {
