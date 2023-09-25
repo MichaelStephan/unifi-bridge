@@ -1,6 +1,6 @@
 {
     "name": "ring_bridge",
-    "version": "1.0.50",
+    "version": "1.0.51",
     "description": "Ring Bridge",
     "author": "Michael Stephan",
     "main": "index.js",
