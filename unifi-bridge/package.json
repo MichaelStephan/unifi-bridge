@@ -1,6 +1,6 @@
 {
     "name": "ring_bridge",
-    "version": "1.0.51",
+    "version": "1.0.53",
     "description": "Ring Bridge",
     "author": "Michael Stephan",
     "main": "index.js",
@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "dotenv-extended": "^2.8.0",
-        "node-unifi": "^2.4.1",
+        "node-unifi": "^2.5.1",
         "mqtt":"5.0.1",
         "http": "^0.0.0",
         "zlib": "^1.0",
