@@ -166,7 +166,7 @@ setInterval(() => {
 	for (const topic of topics) {
 		if((Date.now() - client_devices_stats[topic].last_seen) > 3 * DEFAULT_LISTEN_REFRESH_INTERVAL) {
 			mqtt_client.publish(availableTopic, 'offline', {retain: true});
-			mqtt_client.publish(`${topic}/presence`, 'not home');
+			mqtt_client.publish(`${topic}/presence`, 'not_home');
 		}
 	}
 }, 3 * DEFAULT_LISTEN_REFRESH_INTERVAL)

@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bashio
 set +u
 
-bashio::log.info "Running version 1.0.53"
+bashio::log.info "Running version 1.0.54"
 
 export UNIFI_USERNAME=$(bashio::config 'unifi_username')
 bashio::log.info "Unifi username configured as ${UNIFI_USERNAME}"
